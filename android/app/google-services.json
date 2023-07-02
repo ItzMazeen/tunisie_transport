@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "623181443327",
+    "firebase_url": "https://taxirogba.firebaseio.com",
+    "project_id": "taxirogba",
+    "storage_bucket": "taxirogba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623181443327:android:7f10e2fd1edca950",
+        "android_client_info": {
+          "package_name": "com.alidev.taxirogba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623181443327-l892iada87g4degpvffhicnm0rd44ac0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN6yr7K9iqF0zB_e2umwI02Ete4SefUdk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "623181443327-l892iada87g4degpvffhicnm0rd44ac0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "623181443327-vm686frrouduks0nv8uj3ch9qfkqogj7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.alloTransport"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623181443327:android:ad429dcad357d29978dcca",
+        "android_client_info": {
+          "package_name": "com.alidev.transport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623181443327-l892iada87g4degpvffhicnm0rd44ac0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN6yr7K9iqF0zB_e2umwI02Ete4SefUdk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "623181443327-l892iada87g4degpvffhicnm0rd44ac0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "623181443327-vm686frrouduks0nv8uj3ch9qfkqogj7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.alloTransport"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623181443327:android:ff42a1df27f5926e78dcca",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623181443327-l892iada87g4degpvffhicnm0rd44ac0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN6yr7K9iqF0zB_e2umwI02Ete4SefUdk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "623181443327-l892iada87g4degpvffhicnm0rd44ac0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "623181443327-vm686frrouduks0nv8uj3ch9qfkqogj7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.alloTransport"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
