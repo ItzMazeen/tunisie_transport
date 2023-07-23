@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application/login.dart';
-import 'package:flutter_application/registre.dart';
+import 'package:flutter_application/crud/login.dart';
+import 'package:flutter_application/crud/registre.dart';
 
 class AuthPage extends StatefulWidget {
   AuthPage({Key? key}) : super(key: key);

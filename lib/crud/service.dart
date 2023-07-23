@@ -1,8 +1,14 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_constructors_in_immutables
+
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Service extends StatefulWidget {
   Service({Key? key}) : super(key: key);
@@ -17,6 +23,7 @@ class _ServiceState extends State<Service> {
   final _modeleVehiculeController = TextEditingController();
   final _phoneController = TextEditingController();
   final _aboutServiceController = TextEditingController();
+
   List<String> _typeList = [
     'Louage',
     'Taxi',
@@ -27,21 +34,94 @@ class _ServiceState extends State<Service> {
     'Tractor',
     'Bulldozer',
   ];
+  List<String> _regionList = [
+    'Ariana',
+    'Béja',
+    'Ben Arous',
+    'Bizerte',
+    'Gabès',
+    'Gafsa',
+    'Jendouba',
+    'Kairouan',
+    'Kébili',
+    'Kasserine',
+    'Kef',
+    'Mahdia',
+    'Manouba',
+    'Médenine',
+    'Monastir',
+    'Nabeul',
+    'Sfax',
+    'Sidi Bouzid',
+    'Siliana',
+    'Sousse',
+    'Tataouine',
+    'Tozeur',
+    'Tunis',
+    'Zaghouan',
+    'Toute la tunisie',
+  ];
 
   String? _selectedType;
-  Future addService() async {
-    String serie =
-        _serieVehiculeController.text.trim(); // Get the trimmed serie value
+  String? _selectedRegion;
+  final user = FirebaseAuth.instance.currentUser!;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _serieVehiculeController.dispose();
+    _serviceNameController.dispose();
+    _modeleVehiculeController.dispose();
+    _phoneController.dispose();
+    _aboutServiceController.dispose();
+    super.dispose();
+  }
+
+  FirebaseMessaging token = FirebaseMessaging.instance;
+  var serverToken =
+      "AAAAkRiCMP8:APA91bEwHyocXl9CeeOrjx6XVj13OG2gT8sKn6Y7ZFKK0hBvsWJCpq1wpR1kpwPs0vVoyI4-fHHJLrGSCCXcHeBXlatT9a3J4X1pwPHXPJAMvP4--7C6PO02qzuQmw5nmoINQ1sIDBOX";
+
+  sendNotif(String t, String b) async {
+    await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverToken',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{
+              'body': b.toString(),
+              'title': t.toString()
+            },
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'id': '1',
+              'to': "/topic/service"
+            },
+            'to': "/topics/service"
+          },
+        ));
+  }
+
+  Future<void> addService() async {
+    String serie = _serieVehiculeController.text.trim();
     String phoneNumber = _phoneController.text.trim();
     String name = _serviceNameController.text.trim();
     String modele = _modeleVehiculeController.text.trim();
     String about = _aboutServiceController.text.trim();
+
     showDialog(
       context: context,
       builder: (context) {
         return Center(child: CircularProgressIndicator());
       },
     );
+
     if (serie.isEmpty ||
         name.isEmpty ||
         modele.isEmpty ||
@@ -52,9 +132,7 @@ class _ServiceState extends State<Service> {
         context: context,
         builder: (_) => AlertDialog(
           title: Text('Error adding'),
-          content: Text(
-            'Please Fill all the information',
-          ),
+          content: Text('Please fill in all the information.'),
           actions: <Widget>[
             TextButton(
               child: const Text('Ok'),
@@ -73,9 +151,7 @@ class _ServiceState extends State<Service> {
         context: context,
         builder: (_) => AlertDialog(
           title: Text('Error registration'),
-          content: Text(
-            'Please Enter a valid phone number',
-          ),
+          content: Text('Please enter a valid phone number.'),
           actions: <Widget>[
             TextButton(
               child: const Text('Ok'),
@@ -88,27 +164,28 @@ class _ServiceState extends State<Service> {
       );
     } else {
       addServiceDetails(
-          _serviceNameController.text.trim(),
-          _modeleVehiculeController.text.trim(),
-          _serieVehiculeController.text.trim(),
-          _aboutServiceController.text.trim(),
-          int.parse(_phoneController.text.trim()));
+        _serviceNameController.text.trim(),
+        _modeleVehiculeController.text.trim(),
+        _serieVehiculeController.text.trim(),
+        _aboutServiceController.text.trim(),
+        int.parse(_phoneController.text.trim()),
+        _selectedRegion!,
+        user.uid,
+      );
+      // Save the service in SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('service', _selectedType!);
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
+      // Display notification
+      String notificationTitle = 'New $_selectedType Added';
+      String notificationBody =
+          'A new $_selectedType has been added in $_selectedRegion';
+      await sendNotif(notificationTitle, notificationBody);
     }
-  }
-
-  Future addServiceDetails(
-      String name, String modele, String serie, String about, int phone) async {
-    await FirebaseFirestore.instance.collection('services').add({
-      'Service name': name,
-      'Modele Vehicule': modele,
-      'serie': serie,
-      'about': about,
-      'matricule': phone,
-    });
   }
 
   @override
@@ -145,7 +222,8 @@ class _ServiceState extends State<Service> {
                     textAlignVertical: TextAlignVertical.center,
                     controller: _serviceNameController,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.person), // Add the icon here
+                        prefixIcon: Icon(
+                            Icons.home_repair_service), // Add the icon here
                         border: InputBorder.none,
                         hintText: 'Service Name'),
                   ),
@@ -164,7 +242,7 @@ class _ServiceState extends State<Service> {
                     controller: _modeleVehiculeController,
                     decoration: InputDecoration(
                         prefixIcon:
-                            Icon(Icons.person_2_outlined), // Add the icon here
+                            Icon(Icons.directions_car), // Add the icon here
                         border: InputBorder.none,
                         hintText: 'Marque Vehicule'),
                   ),
@@ -180,8 +258,7 @@ class _ServiceState extends State<Service> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: DropdownButtonFormField<String>(
-                    value:
-                        _selectedType, // Set the currently selected phone number value
+                    value: _selectedType,
                     onChanged: (String? newValue) {
                       // Update the selected phone number value
                       setState(() {
@@ -189,9 +266,10 @@ class _ServiceState extends State<Service> {
                       });
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.phone), // Add the icon here
+                      prefixIcon:
+                          Icon(Icons.design_services), // Add the icon here
                       border: InputBorder.none,
-                      hintText: 'Phone Number',
+                      hintText: 'Service type',
                     ),
                     items:
                         _typeList.map<DropdownMenuItem<String>>((String value) {
@@ -203,7 +281,37 @@ class _ServiceState extends State<Service> {
                   ),
                 ),
               ),
-
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: DropdownButtonFormField<String>(
+                    value: _selectedRegion,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedRegion = newValue;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.place), // Add the icon here
+                      border: InputBorder.none,
+                      hintText: 'Region',
+                    ),
+                    items: _regionList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
               SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -236,7 +344,8 @@ class _ServiceState extends State<Service> {
                     textAlignVertical: TextAlignVertical.center,
                     controller: _serieVehiculeController,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email), // Add the icon here
+                        prefixIcon: Icon(
+                            Icons.minor_crash_rounded), // Add the icon here
                         border: InputBorder.none,
                         hintText: 'Serie Vehicule'),
                   ),
@@ -257,7 +366,7 @@ class _ServiceState extends State<Service> {
                     textAlignVertical: TextAlignVertical.center,
                     controller: _aboutServiceController,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email), // Add the icon here
+                      prefixIcon: Icon(Icons.description), // Add the icon here
                       border: InputBorder.none,
                       hintText: 'About service',
                     ),
@@ -287,10 +396,132 @@ class _ServiceState extends State<Service> {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            HomePage(), // Replace HomePage with your desired home page widget
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.deepPurple,
+                    ),
+                    child: Center(
+                      child: Text('Skip',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          )),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       )),
     );
+  }
+
+  Future addServiceDetails(
+    String name,
+    String modele,
+    String serie,
+    String about,
+    int phone,
+    String _selectedRegion,
+    String userId,
+  ) async {
+    if (_selectedType == "Taxi") {
+      await FirebaseFirestore.instance.collection('Taxi').add({
+        'Service name': name,
+        'Modele Vehicule': modele,
+        'serie': serie,
+        'about': about,
+        'Phone': phone,
+        'Region': _selectedRegion,
+        'User': userId,
+      });
+    } else if (_selectedType == "SOS") {
+      await FirebaseFirestore.instance.collection('SOS').add({
+        'Service name': name,
+        'Modele Vehicule': modele,
+        'serie': serie,
+        'about': about,
+        'Phone': phone,
+        'Region': _selectedRegion,
+        'User': userId,
+      });
+    } else if (_selectedType == "TukTuk") {
+      await FirebaseFirestore.instance.collection('TukTuk').add({
+        'Service name': name,
+        'Modele Vehicule': modele,
+        'serie': serie,
+        'about': about,
+        'Phone': phone,
+        'Region': _selectedRegion,
+        'User': userId,
+      });
+    } else if (_selectedType == "Moto") {
+      await FirebaseFirestore.instance.collection('Moto').add({
+        'Service name': name,
+        'Modele Vehicule': modele,
+        'serie': serie,
+        'about': about,
+        'Phone': phone,
+        'Region': _selectedRegion,
+        'User': userId,
+      });
+    } else if (_selectedType == "Truck") {
+      await FirebaseFirestore.instance.collection('Truck').add({
+        'Service name': name,
+        'Modele Vehicule': modele,
+        'serie': serie,
+        'about': about,
+        'Phone': phone,
+        'Region': _selectedRegion,
+        'User': userId,
+      });
+    } else if (_selectedType == "Tractor") {
+      await FirebaseFirestore.instance.collection('Tractor').add({
+        'Service name': name,
+        'Modele Vehicule': modele,
+        'serie': serie,
+        'about': about,
+        'Phone': phone,
+        'Region': _selectedRegion,
+        'User': userId,
+      });
+    } else if (_selectedType == "Bulldozer") {
+      await FirebaseFirestore.instance.collection('Bulldozer').add({
+        'Service name': name,
+        'Modele Vehicule': modele,
+        'serie': serie,
+        'about': about,
+        'Phone': phone,
+        'Region': _selectedRegion,
+        'User': userId,
+      });
+    } else if (_selectedType == "Louage") {
+      await FirebaseFirestore.instance.collection('Louage').add({
+        'Service name': name,
+        'Modele Vehicule': modele,
+        'serie': serie,
+        'about': about,
+        'Phone': phone,
+        'Region': _selectedRegion,
+        'User': userId,
+      });
+    }
   }
 }

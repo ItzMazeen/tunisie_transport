@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, unused_element
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, unused_element, prefer_final_fields
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrePage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -14,11 +16,27 @@ class RegistrePage extends StatefulWidget {
 }
 
 class _RegistrePageState extends State<RegistrePage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmpasswordController = TextEditingController();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmpasswordController = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+
+  late BuildContext _context; // Define a context variable
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseMessaging.instance.subscribeToTopic('service');
+
+    _context = context; // Assign the context in the initState method
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmpasswordController = TextEditingController();
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -31,6 +49,7 @@ class _RegistrePageState extends State<RegistrePage> {
 
   bool _obscureText = true;
   bool _obscureText2 = true;
+
   // Toggles the password show status
   void _toggle() {
     setState(() {
@@ -40,44 +59,48 @@ class _RegistrePageState extends State<RegistrePage> {
   }
 
   Future signUp() async {
-    String email = _emailController.text.trim(); // Get the trimmed email value
-    String passowrd = _passwordController.text.trim();
-    String cpassword = _confirmpasswordController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    String confirmPassword = _confirmpasswordController.text.trim();
     String firstName = _firstNameController.text.trim();
     String lastName = _lastNameController.text.trim();
+
     showDialog(
-      context: context,
+      context: _context, // Use the assigned context
       builder: (context) {
         return Center(child: CircularProgressIndicator());
       },
     );
+
     if (email.isEmpty ||
-        passowrd.isEmpty ||
-        cpassword.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty ||
         firstName.isEmpty ||
         lastName.isEmpty) {
-      Navigator.of(context).pop();
+      Navigator.of(_context).pop();
+
       showDialog(
-        context: context,
+        context: _context,
         builder: (_) => AlertDialog(
           title: Text('Error registration'),
           content: Text(
-            'Please Fill all the information',
+            'Please fill in all the information',
           ),
           actions: <Widget>[
             TextButton(
               child: const Text('Ok'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(_context).pop();
               },
             ),
           ],
         ),
       );
-    } else if (passwordEqual() == false) {
-      Navigator.of(context).pop();
+    } else if (!passwordEqual()) {
+      Navigator.of(_context).pop();
+
       showDialog(
-        context: context,
+        context: _context,
         builder: (_) => AlertDialog(
           title: Text('Error registration'),
           content: Text(
@@ -87,7 +110,7 @@ class _RegistrePageState extends State<RegistrePage> {
             TextButton(
               child: const Text('Ok'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(_context).pop();
               },
             ),
           ],
@@ -96,30 +119,36 @@ class _RegistrePageState extends State<RegistrePage> {
     } else {
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim());
-        Navigator.of(context).pop();
-        addUserDetails(
-          _firstNameController.text.trim(),
-          _lastNameController.text.trim(),
-          _emailController.text.trim(),
+          email: email,
+          password: password,
         );
+
+        addUserDetails(
+          firstName,
+          lastName,
+          email,
+        );
+        // Save the password in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('password', password);
+        Navigator.of(_context).pop();
       } on FirebaseAuthException catch (e) {
-        Navigator.of(context).pop();
+        Navigator.of(_context).pop();
+
         switch (e.code) {
           case "invalid-email":
             showDialog(
-              context: context,
+              context: _context,
               builder: (_) => AlertDialog(
                 title: Text('Error registration'),
                 content: Text(
-                  'Please enter a valid email adress',
+                  'Please enter a valid email address',
                 ),
                 actions: <Widget>[
                   TextButton(
                     child: const Text('Ok'),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(_context).pop();
                     },
                   ),
                 ],
@@ -128,7 +157,7 @@ class _RegistrePageState extends State<RegistrePage> {
             break;
           case "email-already-in-use":
             showDialog(
-              context: context,
+              context: _context,
               builder: (_) => AlertDialog(
                 title: Text('Error registration'),
                 content: Text(
@@ -138,7 +167,7 @@ class _RegistrePageState extends State<RegistrePage> {
                   TextButton(
                     child: const Text('Ok'),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(_context).pop();
                     },
                   ),
                 ],
@@ -147,7 +176,7 @@ class _RegistrePageState extends State<RegistrePage> {
             break;
           case "weak-password":
             showDialog(
-              context: context,
+              context: _context,
               builder: (_) => AlertDialog(
                 title: Text('Error registration'),
                 content: Text(
@@ -157,12 +186,13 @@ class _RegistrePageState extends State<RegistrePage> {
                   TextButton(
                     child: const Text('Ok'),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(_context).pop();
                     },
                   ),
                 ],
               ),
             );
+            break;
         }
       }
     }

@@ -2,15 +2,14 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/Livraison.dart';
-import 'package:flutter_application/Setting.dart';
-import 'package:flutter_application/d%C3%A9panneuse.dart';
-import 'package:flutter_application/main_page.dart';
-import 'package:flutter_application/taxi.dart';
-import 'package:flutter_application/toktok.dart';
-import 'package:flutter_application/trucks.dart';
+import 'package:flutter_application/crud/setting.dart';
+import 'package:flutter_application/services/livraison.dart';
+import 'package:flutter_application/services/sos.dart';
+import 'package:flutter_application/crud/main_page.dart';
+import 'package:flutter_application/services/taxi.dart';
+import 'package:flutter_application/services/trucks.dart';
 
-import 'Louage.dart';
+import 'services/louage.dart';
 import 'home_page.dart';
 
 class NavBar extends StatelessWidget {
@@ -50,36 +49,32 @@ class NavBar extends StatelessWidget {
             const SizedBox(height: 10),
             //Dashboard Menu Item
             buildMenuItem(
-                text: 'Louage',
-                icon: Icons.directions_bus_filled_outlined,
+                text: 'Taxi',
+                icon: Icons.local_taxi_outlined,
                 onClicked: () => selectedItem(context, 1)),
             //Sellers Menu Item
             const SizedBox(height: 10),
             buildMenuItem(
-                text: 'Toktoks',
-                icon: Icons.fire_truck_outlined,
+                text: 'Louage',
+                icon: Icons.directions_bus_filled_outlined,
                 onClicked: () => selectedItem(context, 2)),
             //Sales statistics Menu Item
             const SizedBox(height: 10),
             buildMenuItem(
-                text: 'Taxi',
-                icon: Icons.local_taxi_outlined,
+                text: 'Delivery',
+                icon: Icons.fire_truck_outlined,
                 onClicked: () => selectedItem(context, 3)),
+
             const SizedBox(height: 10),
             buildMenuItem(
-                text: 'Livraison',
-                icon: Icons.motorcycle_outlined,
-                onClicked: () => selectedItem(context, 4)),
-            const SizedBox(height: 10),
-            buildMenuItem(
-                text: 'Trucks',
+                text: 'Work Trucks',
                 icon: Icons.local_shipping_outlined,
-                onClicked: () => selectedItem(context, 5)),
+                onClicked: () => selectedItem(context, 4)),
             const SizedBox(height: 10),
             buildMenuItem(
                 text: 'SOS',
                 icon: Icons.car_repair_outlined,
-                onClicked: () => selectedItem(context, 6)),
+                onClicked: () => selectedItem(context, 5)),
             //Divider
             const SizedBox(height: 10),
             Divider(
@@ -89,10 +84,12 @@ class NavBar extends StatelessWidget {
             //Settings Menu Item
 
             const SizedBox(height: 10),
-            buildMenuItem(
+            if (FirebaseAuth.instance.currentUser != null)
+              buildMenuItem(
                 text: 'Settings',
                 icon: Icons.settings_outlined,
-                onClicked: () => selectedItem(context, 7)),
+                onClicked: () => selectedItem(context, 6),
+              ),
             const SizedBox(height: 10),
             buildMenuItem(
               text: 'Logout',
@@ -142,35 +139,31 @@ void selectedItem(BuildContext context, int index) {
       break;
     case 1:
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Louage(),
+        builder: (context) => Taxi(),
       ));
       break;
     case 2:
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Toktok(),
+        builder: (context) => Louage(),
       ));
       break;
     case 3:
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Taxi(),
-      ));
-      break;
-    case 4:
-      Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => livraison(),
       ));
       break;
-    case 5:
+
+    case 4:
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => trucks(),
       ));
       break;
-    case 6:
+    case 5:
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => depanneuse(),
+        builder: (context) => sos(),
       ));
       break;
-    case 7:
+    case 6:
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => Setting(),
       ));

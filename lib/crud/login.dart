@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application/auth_service.dart';
-import 'package:flutter_application/forgot_password.dart';
+import 'package:flutter_application/crud/auth_service.dart';
+import 'package:flutter_application/crud/forgot_password.dart';
+import 'package:flutter_application/home_page.dart';
 import 'package:flutter_application/square_tile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showRegistrePage;
@@ -19,30 +21,47 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  late BuildContext _context; // Define a context variable
+
+  @override
+  void initState() {
+    super.initState();
+    _context = context; // Assign the context in the initState method
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Future signIn() async {
-    String email = _emailController.text.trim(); // Get the trimmed email value
-    String passowrd = _passwordController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
     showDialog(
-      context: context,
+      context: _context, // Use the assigned context
       builder: (context) {
         return Center(child: CircularProgressIndicator());
       },
     );
-    if (email.isEmpty || passowrd.isEmpty) {
-      Navigator.of(context).pop();
+
+    if (email.isEmpty || password.isEmpty) {
+      Navigator.of(_context).pop();
 
       showDialog(
-        context: context,
+        context: _context,
         builder: (_) => AlertDialog(
           title: Text('Error registration'),
           content: Text(
-            'Please Fill all the information',
+            'Please fill in all the information',
           ),
           actions: <Widget>[
             TextButton(
               child: const Text('Ok'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(_context).pop();
               },
             ),
           ],
@@ -51,16 +70,20 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim());
-        Navigator.of(context).pop();
+          email: email,
+          password: password,
+        );
+        // Save the password in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('password', password);
+        Navigator.of(_context).pop();
       } on FirebaseAuthException catch (e) {
-        Navigator.of(context).pop();
+        Navigator.of(_context).pop();
 
         switch (e.code) {
           case "user-not-found":
             showDialog(
-              context: context,
+              context: _context,
               builder: (_) => AlertDialog(
                 title: Text('Error login'),
                 content: Text(
@@ -70,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                     child: const Text('Ok'),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(_context).pop();
                     },
                   ),
                 ],
@@ -79,28 +102,26 @@ class _LoginPageState extends State<LoginPage> {
             break;
           case "invalid-email":
             showDialog(
-              context: context,
+              context: _context,
               builder: (_) => AlertDialog(
                 title: Text('Error login'),
                 content: Text(
-                  'Please enter a valid email adress',
+                  'Please enter a valid email address',
                 ),
                 actions: <Widget>[
                   TextButton(
                     child: const Text('Ok'),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(_context).pop();
                     },
                   ),
                 ],
               ),
             );
-
             break;
-
           case "wrong-password":
             showDialog(
-              context: context,
+              context: _context,
               builder: (_) => AlertDialog(
                 title: Text('Error login'),
                 content: Text(
@@ -110,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                     child: const Text('Ok'),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(_context).pop();
                     },
                   ),
                 ],
@@ -119,13 +140,6 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     }
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 
   bool _obscureText = true;
@@ -288,7 +302,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareTile(
-                      onTap: () => AuthService().signInWithGoogle(),
+                      onTap: () => AuthService().signInWithGoogle(context),
                       imagePath: 'assets/images/google.png')
                 ],
               ),
@@ -303,6 +317,29 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: widget.showRegistrePage,
                     child: Text(' Register now',
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+              // continue like a visitor
+              SizedBox(height: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Login as a VISITOR ?',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              HomePage(), // Replace HomePage with your desired home page widget
+                        ),
+                      );
+                    },
+                    child: Text(' Click here',
                         style: TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold)),
                   ),
