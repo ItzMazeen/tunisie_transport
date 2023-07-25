@@ -1,15 +1,34 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application/crud/main_page.dart';
+import 'package:flutter_application/provider/locale_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'l10n/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  // Retrieve the saved locale from shared preferences
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? savedLocale = prefs.getString('selectedLocale');
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => LocaleProvider(savedLocale != null
+          ? Locale(savedLocale)
+          : null), // Pass the saved locale to the provider
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -64,6 +83,9 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Access the LocaleProvider instance directly without using Consumer
+    LocaleProvider localeProvider = Provider.of<LocaleProvider>(context);
+
     return MaterialApp(
       title: 'AlloTransport',
       theme: ThemeData(
@@ -71,6 +93,14 @@ class _MyAppState extends State<MyApp> {
           primary: Color(0xff52B788), // Change the primary color
         ),
       ),
+      locale: localeProvider.locale,
+      supportedLocales: L10n.all,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
       home: const MainPage(),
     );
   }

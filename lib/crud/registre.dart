@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegistrePage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -82,10 +83,8 @@ class _RegistrePageState extends State<RegistrePage> {
       showDialog(
         context: _context,
         builder: (_) => AlertDialog(
-          title: Text('Error registration'),
-          content: Text(
-            'Please fill in all the information',
-          ),
+          title: Text(AppLocalizations.of(context)!.error),
+          content: Text(AppLocalizations.of(context)!.fill),
           actions: <Widget>[
             TextButton(
               child: const Text('Ok'),
@@ -102,10 +101,8 @@ class _RegistrePageState extends State<RegistrePage> {
       showDialog(
         context: _context,
         builder: (_) => AlertDialog(
-          title: Text('Error registration'),
-          content: Text(
-            'Check your password',
-          ),
+          title: Text(AppLocalizations.of(context)!.error),
+          content: Text(AppLocalizations.of(context)!.wrong),
           actions: <Widget>[
             TextButton(
               child: const Text('Ok'),
@@ -140,9 +137,9 @@ class _RegistrePageState extends State<RegistrePage> {
             showDialog(
               context: _context,
               builder: (_) => AlertDialog(
-                title: Text('Error registration'),
+                title: Text(AppLocalizations.of(context)!.error),
                 content: Text(
-                  'Please enter a valid email address',
+                  AppLocalizations.of(context)!.invalidEmail,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -159,9 +156,9 @@ class _RegistrePageState extends State<RegistrePage> {
             showDialog(
               context: _context,
               builder: (_) => AlertDialog(
-                title: Text('Error registration'),
+                title: Text(AppLocalizations.of(context)!.error),
                 content: Text(
-                  'The email address is already in use',
+                  AppLocalizations.of(context)!.use,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -178,9 +175,9 @@ class _RegistrePageState extends State<RegistrePage> {
             showDialog(
               context: _context,
               builder: (_) => AlertDialog(
-                title: Text('Error registration'),
+                title: Text(AppLocalizations.of(context)!.error),
                 content: Text(
-                  'Password must be at least 6 characters',
+                  AppLocalizations.of(context)!.weak,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -226,12 +223,12 @@ class _RegistrePageState extends State<RegistrePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/wowsoft.png',
-                width: 150,
+                'assets/images/logo.png',
+                width: 200,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Text(
-                'Register below',
+                AppLocalizations.of(context)!.registerB,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
               ),
 
@@ -251,7 +248,7 @@ class _RegistrePageState extends State<RegistrePage> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person), // Add the icon here
                         border: InputBorder.none,
-                        hintText: 'First Name'),
+                        hintText: AppLocalizations.of(context)!.firstName),
                   ),
                 ),
               ),
@@ -270,7 +267,7 @@ class _RegistrePageState extends State<RegistrePage> {
                         prefixIcon:
                             Icon(Icons.person_2_outlined), // Add the icon here
                         border: InputBorder.none,
-                        hintText: 'Last Name'),
+                        hintText: AppLocalizations.of(context)!.lastName),
                   ),
                 ),
               ),
@@ -290,7 +287,7 @@ class _RegistrePageState extends State<RegistrePage> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.email), // Add the icon here
                         border: InputBorder.none,
-                        hintText: 'Email'),
+                        hintText: AppLocalizations.of(context)!.email),
                   ),
                 ),
               ),
@@ -310,7 +307,7 @@ class _RegistrePageState extends State<RegistrePage> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.password), // Add the icon here
                       border: InputBorder.none,
-                      hintText: 'Password',
+                      hintText: AppLocalizations.of(context)!.password,
                       suffixIcon: GestureDetector(
                         onTap: () {
                           setState(() {
@@ -342,7 +339,7 @@ class _RegistrePageState extends State<RegistrePage> {
                       prefixIcon: Icon(Icons.password), // Add the icon here
 
                       border: InputBorder.none,
-                      hintText: 'Confirm Password',
+                      hintText: AppLocalizations.of(context)!.cpassword,
                       suffixIcon: GestureDetector(
                         onTap: () {
                           setState(() {
@@ -371,7 +368,7 @@ class _RegistrePageState extends State<RegistrePage> {
                       color: Colors.deepPurple,
                     ),
                     child: Center(
-                      child: Text('Sign Up',
+                      child: Text(AppLocalizations.of(context)!.registre,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -386,11 +383,11 @@ class _RegistrePageState extends State<RegistrePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('I am a member |',
+                  Text(AppLocalizations.of(context)!.memberI,
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   GestureDetector(
                     onTap: widget.showLoginPage,
-                    child: Text(' Login now',
+                    child: Text(AppLocalizations.of(context)!.loginN,
                         style: TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold)),
                   ),

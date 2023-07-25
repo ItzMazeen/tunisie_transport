@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
@@ -34,9 +35,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text('Error email'),
+          title: Text(
+            AppLocalizations.of(context)!.errEmail,
+          ),
           content: Text(
-            'Please Fill all the information',
+            AppLocalizations.of(context)!.invalidEmail,
           ),
           actions: <Widget>[
             TextButton(
@@ -56,9 +59,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
-            title: Text('Email sent'),
+            title: Text(AppLocalizations.of(context)!.sent),
             content: Text(
-              'Password reset link sent! check your email',
+              AppLocalizations.of(context)!.tsent,
             ),
             actions: <Widget>[
               TextButton(
@@ -78,9 +81,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: Text('Error email'),
+                title: Text(AppLocalizations.of(context)!.errEmail),
                 content: Text(
-                  'User not found with this email',
+                  AppLocalizations.of(context)!.terrEmail,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -97,9 +100,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: Text('Error email'),
+                title: Text(
+                  AppLocalizations.of(context)!.errEmail,
+                ),
                 content: Text(
-                  'Please enter a valid email adress',
+                  AppLocalizations.of(context)!.invalidEmail,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -129,7 +134,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Enter your email and we will send you a password reset link',
+            AppLocalizations.of(context)!.send,
             textAlign: TextAlign.center,
           ),
           // Email textField
@@ -147,7 +152,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Email',
+                  hintText: AppLocalizations.of(context)!.email,
                   prefixIcon: Icon(Icons.email), // Add the icon here
                 ),
               ),
@@ -157,7 +162,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           SizedBox(height: 10),
           MaterialButton(
             onPressed: passwordReset,
-            child: const Text('Reset Password'),
+            child: Text(AppLocalizations.of(context)!.reset),
             color: Colors.deepPurple[200],
           )
         ],

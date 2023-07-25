@@ -1,0 +1,292 @@
+{
+    "language": "select app language : ",
+    "@language":{
+        "description": "The current Language"
+    },
+    "helloAgain": "Hello Again",
+    "@helloAgain":{
+        "description": "Hello greetings"
+    },
+    "allowNotifications": "Allow notifications :",
+    "@allowNotifications":{
+        "description": "AllowNotifications message"
+    },
+    "nbrVue": "Number of views of your service {currentValue} : {selectedType} ",
+    "@nbrVue":{
+        "description": "nbrVue",
+        "placeholders": {
+            "selectedType": {
+                "type": "String"
+            },
+            "currentValue": {
+                "type": "int"
+            }
+        }
+    },
+    "firstName": "First Name :",
+    "@firstName":{
+        "description": "firstName"
+    },
+    "lastName": "Last Name :",
+    "@lastName":{
+        "description": "lastName"
+    },
+    "email": "Email :",
+    "@email":{
+        "description": "email"
+    },
+    "password": "Password :",
+    "@password":{
+        "description": "password"
+    },
+    "update": "Update",
+    "@update":{
+        "description": "update"
+    },
+    "settings": "Settings",
+    "@settings":{
+        "description": "settings"
+    },
+    "home": "Home",
+    "@home":{
+        "description": "home"
+    },
+    "taxi": "Taxi",
+    "@taxi":{
+        "description": "taxi"
+    },
+    "louage": "Louage",
+    "@louage":{
+        "description": "louage"
+    },
+    "delivery": "Delivery",
+    "@delivery":{
+        "description": "delivery"
+    },
+    "work": "Work Trucks",
+    "@work":{
+        "description": "work"
+    },
+    "sos": "SOS",
+    "@sos":{
+        "description": "sos"
+    },
+    "logout": "Logout",
+    "@logout":{
+        "description": "Logout"
+    },
+    "tractor": "Tractor",
+    "@tractor":{
+        "description": "tractor"
+    },
+    "bulldozer": "Bulldozer",
+    "@bulldozer":{
+        "description": "bulldozer"
+    },
+    "tuktuk": "Tuktuk",
+    "@tuktuk":{
+        "description": "tuktuk"
+    },
+    "moto": "Moto",
+    "@moto":{
+        "description": "moto"
+    },
+    "truck": "Truck",
+    "@truck":{
+        "description": "truck"
+    },
+    "search": "Search by region",
+    "@search":{
+        "description": "search"
+    },
+    "phone": "Phone number : ",
+    "@phone":{
+        "description": "phone"
+    },
+    "confirmDelete": "Confirm Delete",
+    "@confirmDelete":{
+        "description": "confirmDelete"
+    },
+    "tconfirmDelete": "Are you sure you want to delete this document?",
+    "@tconfirmDelete":{
+        "description": "tconfirmDelete"
+    },
+    "cancel": "Cancel",
+    "@cancel":{
+        "description": "cancel"
+    },
+    "delete": "Delete",
+    "@delete":{
+        "description": "Delete"
+    },
+    "deleteSucc": "Delete Successful",
+    "@deleteSucc":{
+        "description": "Delete"
+    },
+    "tdeleteSucc": "The document has been deleted.",
+    "@tdeleteSucc":{
+        "description": "Delete"
+    },
+    "error": "Error",
+    "@edelete":{
+        "description": "Delete"
+    },
+    "tedelete": "An error occurred while deleting the document.",
+    "@tedelete":{
+        "description": "Delete"
+    },
+    "edit": "Edit",
+    "@edit":{
+        "description": "edit"
+    },
+    "serviceName": "Service name : ",
+    "@serviceName":{
+        "description": "serviceName"
+    },
+    "region": "Region :",
+    "@region":{
+        "description": "region"
+    },
+    "modele": "Modele vehicule :",
+    "@modele":{
+        "description": "modele"
+    },
+    "serie": "Serie vehicule :",
+    "@serie":{
+        "description": "serie"
+    },
+    "aboutService": "About service :",
+    "@aboutService":{
+        "description": "aboutService"
+    },
+    "updateSucc": "Update successful",
+    "@updateSucc":{
+        "description": "updateSucc"
+    },
+    "tupdateSucc": "Service information updated",
+    "@tupdateSucc":{
+        "description": "tupdateSucc"
+    },
+    "addService": "Add service",
+    "@addService":{
+        "description": "addService"
+    },
+    "serviceType": "Service type",
+    "@serviceType":{
+        "description": "serviceType"
+    },
+    "ajouter": "Ajouter",
+    "@ajouter":{
+        "description": "ajouter"
+    },
+    "notifON": "Notifications ON",
+    "@notifON":{
+        "description": "notifON"
+    },
+    "notifOFF": "Notifications OFF",
+    "@notifOFF":{
+        "description": "notifOFF"
+    },
+    "forgot": "Forgot Password ?",
+    "@forgot":{
+        "description": "forgot"
+    },
+    "signIn": "Sign In",
+    "@signIn":{
+        "description": "signIn"
+    },
+    "ctn": "Or continue with",
+    "@ctn":{
+        "description": "ctn"
+    },
+    "registre": " Register now",
+    "@registre":{
+        "description": "registre"
+    },
+    "notMember": "Not a membre ?",
+    "@notMember":{
+        "description": "notMember"
+    },
+    "visitor": "Login as a VISITOR ?",
+    "@visitor":{
+        "description": "visitor"
+    },
+    "click": " Click here",
+    "@click":{
+        "description": "click"
+    },
+    "send": "Enter your email and we will send you a password reset link",
+    "@send":{
+        "description": "send"
+    },
+    "reset": "Reset Password",
+    "@reset":{
+        "description": "reset"
+    },
+    "sent": "Email sent",
+    "@sent":{
+        "description": "sent"
+    },
+    "tsent": "Password reset link sent! check your email",
+    "@tsent":{
+        "description": "sent"
+    },
+    "errEmail": "Error email",
+    "@errEmail":{
+        "description": "errEmail"
+    },
+    "terrEmail": "User not found with this email",
+    "@terrEmail":{
+        "description": "terrEmail"
+    },
+    "invalidEmail": "Please enter a valid email adress",
+    "@invalidEmail":{
+        "description": "invalidEmail"
+    },
+    "fill": "Please fill in all the information",
+    "@fill":{
+        "description": "fill"
+    },
+    "errorUser": "User not found with this email",
+    "@errorUser":{
+        "description": "errorUser"
+    },
+    "wrong": "Wrong password",
+    "@wrong":{
+        "description": "wrong"
+    },
+    "use": "The email address is already in use",
+    "@use":{
+        "description": "use"
+    },
+    "weak": "Password must be at least 6 characters",
+    "@weak":{
+        "description": "weak"
+    },
+    "registerB": "Register below",
+    "@registerB":{
+        "description": "registerB"
+    },
+    "cpassword": "Confirm Password",
+    "@cpassword":{
+        "description": "cpassword"
+    },
+    "loginN": " Login now",
+    "@loginN":{
+        "description": "loginN"
+    },
+    "memberI": "I am a member |",
+    "@memberI":{
+        "description": "memberI"
+    },
+    "validP": "Please enter a valid phone number.",
+    "@validP":{
+        "description": "validP"
+    }
+
+
+
+
+     
+    
+}

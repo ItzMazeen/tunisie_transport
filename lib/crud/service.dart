@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Service extends StatefulWidget {
   Service({Key? key}) : super(key: key);
@@ -25,14 +26,14 @@ class _ServiceState extends State<Service> {
   final _aboutServiceController = TextEditingController();
 
   List<String> _typeList = [
-    'Louage',
-    'Taxi',
-    'SOS',
-    'TukTuk',
-    'Moto',
-    'Truck',
-    'Tractor',
-    'Bulldozer',
+    'لواج',
+    'تاكسي',
+    'شاحنات النجدة',
+    'توك توك',
+    'دراجة نارية',
+    'شاحنة',
+    'جرار',
+    'جرافة',
   ];
   List<String> _regionList = [
     'Ariana',
@@ -131,8 +132,8 @@ class _ServiceState extends State<Service> {
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text('Error adding'),
-          content: Text('Please fill in all the information.'),
+          title: Text(AppLocalizations.of(context)!.error),
+          content: Text(AppLocalizations.of(context)!.fill),
           actions: <Widget>[
             TextButton(
               child: const Text('Ok'),
@@ -150,8 +151,8 @@ class _ServiceState extends State<Service> {
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text('Error registration'),
-          content: Text('Please enter a valid phone number.'),
+          title: Text(AppLocalizations.of(context)!.error),
+          content: Text(AppLocalizations.of(context)!.validP),
           actions: <Widget>[
             TextButton(
               child: const Text('Ok'),
@@ -199,17 +200,16 @@ class _ServiceState extends State<Service> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/wowsoft.png',
+                'assets/images/logo.png',
                 width: 150,
               ),
-              SizedBox(height: 20),
+
               Text(
-                'Add service',
+                AppLocalizations.of(context)!.addService,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
               ),
 
-              // serie textField
-              SizedBox(height: 20),
+              SizedBox(height: 10),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -225,7 +225,7 @@ class _ServiceState extends State<Service> {
                         prefixIcon: Icon(
                             Icons.home_repair_service), // Add the icon here
                         border: InputBorder.none,
-                        hintText: 'Service Name'),
+                        hintText: AppLocalizations.of(context)!.serviceName),
                   ),
                 ),
               ),
@@ -244,7 +244,7 @@ class _ServiceState extends State<Service> {
                         prefixIcon:
                             Icon(Icons.directions_car), // Add the icon here
                         border: InputBorder.none,
-                        hintText: 'Marque Vehicule'),
+                        hintText: AppLocalizations.of(context)!.modele),
                   ),
                 ),
               ),
@@ -269,7 +269,7 @@ class _ServiceState extends State<Service> {
                       prefixIcon:
                           Icon(Icons.design_services), // Add the icon here
                       border: InputBorder.none,
-                      hintText: 'Service type',
+                      hintText: AppLocalizations.of(context)!.serviceType,
                     ),
                     items:
                         _typeList.map<DropdownMenuItem<String>>((String value) {
@@ -300,7 +300,7 @@ class _ServiceState extends State<Service> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.place), // Add the icon here
                       border: InputBorder.none,
-                      hintText: 'Region',
+                      hintText: AppLocalizations.of(context)!.region,
                     ),
                     items: _regionList
                         .map<DropdownMenuItem<String>>((String value) {
@@ -326,7 +326,7 @@ class _ServiceState extends State<Service> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.phone), // Add the icon here
                         border: InputBorder.none,
-                        hintText: 'Phone Number'),
+                        hintText: AppLocalizations.of(context)!.phone),
                   ),
                 ),
               ),
@@ -347,7 +347,7 @@ class _ServiceState extends State<Service> {
                         prefixIcon: Icon(
                             Icons.minor_crash_rounded), // Add the icon here
                         border: InputBorder.none,
-                        hintText: 'Serie Vehicule'),
+                        hintText: AppLocalizations.of(context)!.serie),
                   ),
                 ),
               ),
@@ -368,7 +368,7 @@ class _ServiceState extends State<Service> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.description), // Add the icon here
                       border: InputBorder.none,
-                      hintText: 'About service',
+                      hintText: AppLocalizations.of(context)!.aboutService,
                     ),
                   ),
                 ),
@@ -386,7 +386,7 @@ class _ServiceState extends State<Service> {
                       color: Colors.deepPurple,
                     ),
                     child: Center(
-                      child: Text('Ajouter',
+                      child: Text(AppLocalizations.of(context)!.ajouter,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -416,7 +416,7 @@ class _ServiceState extends State<Service> {
                       color: Colors.deepPurple,
                     ),
                     child: Center(
-                      child: Text('Skip',
+                      child: Text(AppLocalizations.of(context)!.cancel,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -442,7 +442,7 @@ class _ServiceState extends State<Service> {
     String _selectedRegion,
     String userId,
   ) async {
-    if (_selectedType == "Taxi") {
+    if (_selectedType == "تاكسي") {
       await FirebaseFirestore.instance.collection('Taxi').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -452,7 +452,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "SOS") {
+    } else if (_selectedType == "شاحنات النجدة") {
       await FirebaseFirestore.instance.collection('SOS').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -462,7 +462,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "TukTuk") {
+    } else if (_selectedType == "توك توك") {
       await FirebaseFirestore.instance.collection('TukTuk').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -472,7 +472,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "Moto") {
+    } else if (_selectedType == "دراجة نارية") {
       await FirebaseFirestore.instance.collection('Moto').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -482,7 +482,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "Truck") {
+    } else if (_selectedType == "شاحنة") {
       await FirebaseFirestore.instance.collection('Truck').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -492,7 +492,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "Tractor") {
+    } else if (_selectedType == "جرار") {
       await FirebaseFirestore.instance.collection('Tractor').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -502,7 +502,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "Bulldozer") {
+    } else if (_selectedType == "جرافة") {
       await FirebaseFirestore.instance.collection('Bulldozer').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -512,7 +512,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "Louage") {
+    } else if (_selectedType == "لواج") {
       await FirebaseFirestore.instance.collection('Louage').add({
         'Service name': name,
         'Modele Vehicule': modele,

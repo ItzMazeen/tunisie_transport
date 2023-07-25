@@ -5,6 +5,7 @@ import 'package:flutter_application/services/moto.dart';
 import 'package:flutter_application/navbar.dart';
 import 'package:flutter_application/services/toktok.dart';
 import 'package:flutter_application/services/trucks_delivery.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class livraison extends StatefulWidget {
   livraison({Key? key}) : super(key: key);
@@ -18,7 +19,9 @@ class _livraisonState extends State<livraison> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavBar(),
-      appBar: AppBar(centerTitle: true, title: Text('Delivery Page')),
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text(AppLocalizations.of(context)!.delivery)),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -68,7 +71,7 @@ class _livraisonState extends State<livraison> {
                                 width: 80,
                                 height: 100,
                               ),
-                              Text('TukTuk')
+                              Text(AppLocalizations.of(context)!.tuktuk)
                             ]),
                           ),
                         ),
@@ -103,7 +106,7 @@ class _livraisonState extends State<livraison> {
                                 width: 80,
                                 height: 100,
                               ),
-                              Text('Moto')
+                              Text(AppLocalizations.of(context)!.moto)
                             ]),
                           ),
                         ),
@@ -138,7 +141,7 @@ class _livraisonState extends State<livraison> {
                                 width: 80,
                                 height: 100,
                               ),
-                              Text('Truck')
+                              Text(AppLocalizations.of(context)!.truck)
                             ]),
                           ),
                         ),

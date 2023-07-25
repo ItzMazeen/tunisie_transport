@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/home_page.dart';
 import 'package:flutter_application/navbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditPage extends StatefulWidget {
   final String docId;
@@ -78,7 +79,8 @@ class _EditPageState extends State<EditPage> {
 
     return Scaffold(
       drawer: NavBar(),
-      appBar: AppBar(centerTitle: true, title: Text('Edit Page')),
+      appBar: AppBar(
+          centerTitle: true, title: Text(AppLocalizations.of(context)!.edit)),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -95,7 +97,7 @@ class _EditPageState extends State<EditPage> {
                       controller: _serviceController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        label: Text("Service name : "),
+                        label: Text(AppLocalizations.of(context)!.serviceName),
                         prefixIcon: Icon(
                             Icons.home_repair_service), // Add the icon here
                         border: InputBorder.none,
@@ -122,7 +124,7 @@ class _EditPageState extends State<EditPage> {
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.place), // Add the icon here
                         border: InputBorder.none,
-                        label: Text("Region :"),
+                        label: Text(AppLocalizations.of(context)!.region),
                       ),
                       items: _regionList
                           .map<DropdownMenuItem<String>>((String value) {
@@ -146,7 +148,7 @@ class _EditPageState extends State<EditPage> {
                       controller: _modeleController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        label: Text("Modele vehicule :"),
+                        label: Text(AppLocalizations.of(context)!.modele),
                         prefixIcon:
                             Icon(Icons.directions_car), // Add the icon here
                         border: InputBorder.none,
@@ -166,7 +168,7 @@ class _EditPageState extends State<EditPage> {
                       controller: _serieController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        label: Text("Serie vehicule :"),
+                        label: Text(AppLocalizations.of(context)!.serie),
                         prefixIcon: Icon(
                             Icons.minor_crash_rounded), // Add the icon here
                         border: InputBorder.none,
@@ -186,7 +188,7 @@ class _EditPageState extends State<EditPage> {
                       controller: _phoneController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        label: Text("Phone :"),
+                        label: Text(AppLocalizations.of(context)!.phone),
                         prefixIcon: Icon(Icons.phone), // Add the icon here
                         border: InputBorder.none,
                       ),
@@ -206,7 +208,7 @@ class _EditPageState extends State<EditPage> {
                       controller: _aboutController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        label: Text("About service :"),
+                        label: Text(AppLocalizations.of(context)!.aboutService),
                         prefixIcon:
                             Icon(Icons.description), // Add the icon here
                         border: InputBorder.none,
@@ -278,8 +280,9 @@ class _EditPageState extends State<EditPage> {
                       showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
-                          title: Text("Update successful"),
-                          content: Text('Service information updated'),
+                          title: Text(AppLocalizations.of(context)!.updateSucc),
+                          content:
+                              Text(AppLocalizations.of(context)!.tupdateSucc),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('Ok'),
@@ -315,7 +318,7 @@ class _EditPageState extends State<EditPage> {
                     });
                   }
                 },
-                child: Text('Update'),
+                child: Text(AppLocalizations.of(context)!.update),
               )
             ],
           ),

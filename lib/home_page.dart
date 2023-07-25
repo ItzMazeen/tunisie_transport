@@ -10,6 +10,7 @@ import 'package:flutter_application/navbar.dart';
 import 'package:flutter_application/services/sos.dart';
 import 'package:flutter_application/services/taxi.dart';
 import 'package:flutter_application/services/trucks.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -35,7 +36,8 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
       ),
       drawer: NavBar(),
-      appBar: AppBar(centerTitle: true, title: Text('Home Page')),
+      appBar: AppBar(
+          centerTitle: true, title: Text(AppLocalizations.of(context)!.home)),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -85,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 80,
                                 height: 100,
                               ),
-                              Text('Taxi')
+                              Text(AppLocalizations.of(context)!.taxi)
                             ]),
                           ),
                         ),
@@ -112,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 80,
                                 height: 100,
                               ),
-                              Text('Louage')
+                              Text(AppLocalizations.of(context)!.louage)
                             ]),
                           ),
                         ),
@@ -147,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 80,
                                 height: 100,
                               ),
-                              Text('Delivery')
+                              Text(AppLocalizations.of(context)!.delivery)
                             ]),
                           ),
                         ),
@@ -174,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 80,
                                 height: 100,
                               ),
-                              Text('Work Trucks')
+                              Text(AppLocalizations.of(context)!.work)
                             ]),
                           ),
                         ),
@@ -209,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                                 width: 80,
                                 height: 100,
                               ),
-                              Text('SOS')
+                              Text(AppLocalizations.of(context)!.sos)
                             ]),
                           ),
                         ),
@@ -240,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                     width: 60,
                                     height: 100,
                                   ),
-                                  Text('Settings'),
+                                  Text(AppLocalizations.of(context)!.settings),
                                 ],
                               ),
                             ),

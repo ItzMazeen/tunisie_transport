@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/services/bulldozer.dart';
 import 'package:flutter_application/navbar.dart';
 import 'package:flutter_application/services/tractor.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class trucks extends StatefulWidget {
   trucks({Key? key}) : super(key: key);
@@ -17,7 +18,8 @@ class _trucksState extends State<trucks> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavBar(),
-      appBar: AppBar(centerTitle: true, title: Text('Trucks Page')),
+      appBar: AppBar(
+          centerTitle: true, title: Text(AppLocalizations.of(context)!.work)),
       body: Center(
         child: Stack(
           children: [
@@ -72,7 +74,8 @@ class _trucksState extends State<trucks> {
                                         width: 70,
                                         height: 100,
                                       ),
-                                      Text('Tractor')
+                                      Text(
+                                          AppLocalizations.of(context)!.tractor)
                                     ]),
                                   ),
                                 ),
@@ -99,7 +102,8 @@ class _trucksState extends State<trucks> {
                                         width: 80,
                                         height: 100,
                                       ),
-                                      Text('Bulldozer')
+                                      Text(AppLocalizations.of(context)!
+                                          .bulldozer)
                                     ]),
                                   ),
                                 ),

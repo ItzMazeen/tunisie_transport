@@ -8,6 +8,7 @@ import 'package:flutter_application/services/sos.dart';
 import 'package:flutter_application/crud/main_page.dart';
 import 'package:flutter_application/services/taxi.dart';
 import 'package:flutter_application/services/trucks.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'services/louage.dart';
 import 'home_page.dart';
@@ -27,52 +28,50 @@ class NavBar extends StatelessWidget {
         child: ListView(
           padding: padding,
           children: <Widget>[
-            const SizedBox(height: 10),
             //LOGO settings
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 40,
               ),
               child: Image.asset(
-                'assets/images/wowsoft.png',
+                'assets/images/logo.png',
                 alignment: Alignment.center,
-                height: 80,
-                width: 80,
+                width: 200,
               ),
             ),
             const SizedBox(height: 10),
             //Dashboard Menu Item
             buildMenuItem(
-                text: 'Home',
+                text: AppLocalizations.of(context)!.home,
                 icon: Icons.dashboard_outlined,
                 onClicked: () => selectedItem(context, 0)),
             const SizedBox(height: 10),
             //Dashboard Menu Item
             buildMenuItem(
-                text: 'Taxi',
+                text: AppLocalizations.of(context)!.taxi,
                 icon: Icons.local_taxi_outlined,
                 onClicked: () => selectedItem(context, 1)),
             //Sellers Menu Item
             const SizedBox(height: 10),
             buildMenuItem(
-                text: 'Louage',
+                text: AppLocalizations.of(context)!.louage,
                 icon: Icons.directions_bus_filled_outlined,
                 onClicked: () => selectedItem(context, 2)),
             //Sales statistics Menu Item
             const SizedBox(height: 10),
             buildMenuItem(
-                text: 'Delivery',
+                text: AppLocalizations.of(context)!.delivery,
                 icon: Icons.fire_truck_outlined,
                 onClicked: () => selectedItem(context, 3)),
 
             const SizedBox(height: 10),
             buildMenuItem(
-                text: 'Work Trucks',
+                text: AppLocalizations.of(context)!.work,
                 icon: Icons.local_shipping_outlined,
                 onClicked: () => selectedItem(context, 4)),
             const SizedBox(height: 10),
             buildMenuItem(
-                text: 'SOS',
+                text: AppLocalizations.of(context)!.sos,
                 icon: Icons.car_repair_outlined,
                 onClicked: () => selectedItem(context, 5)),
             //Divider
@@ -86,13 +85,13 @@ class NavBar extends StatelessWidget {
             const SizedBox(height: 10),
             if (FirebaseAuth.instance.currentUser != null)
               buildMenuItem(
-                text: 'Settings',
+                text: AppLocalizations.of(context)!.settings,
                 icon: Icons.settings_outlined,
                 onClicked: () => selectedItem(context, 6),
               ),
             const SizedBox(height: 10),
             buildMenuItem(
-              text: 'Logout',
+              text: AppLocalizations.of(context)!.logout,
               icon: Icons.exit_to_app_rounded,
               onClicked: () async {
                 FirebaseAuth.instance.signOut();

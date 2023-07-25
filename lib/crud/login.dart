@@ -7,6 +7,7 @@ import 'package:flutter_application/crud/forgot_password.dart';
 import 'package:flutter_application/home_page.dart';
 import 'package:flutter_application/square_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showRegistrePage;
@@ -53,9 +54,9 @@ class _LoginPageState extends State<LoginPage> {
       showDialog(
         context: _context,
         builder: (_) => AlertDialog(
-          title: Text('Error registration'),
+          title: Text(AppLocalizations.of(context)!.error),
           content: Text(
-            'Please fill in all the information',
+            AppLocalizations.of(context)!.fill,
           ),
           actions: <Widget>[
             TextButton(
@@ -85,9 +86,9 @@ class _LoginPageState extends State<LoginPage> {
             showDialog(
               context: _context,
               builder: (_) => AlertDialog(
-                title: Text('Error login'),
+                title: Text(AppLocalizations.of(context)!.error),
                 content: Text(
-                  'User not found with this email',
+                  AppLocalizations.of(context)!.errorUser,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -104,9 +105,9 @@ class _LoginPageState extends State<LoginPage> {
             showDialog(
               context: _context,
               builder: (_) => AlertDialog(
-                title: Text('Error login'),
+                title: Text(AppLocalizations.of(context)!.error),
                 content: Text(
-                  'Please enter a valid email address',
+                  AppLocalizations.of(context)!.terrEmail,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -123,9 +124,11 @@ class _LoginPageState extends State<LoginPage> {
             showDialog(
               context: _context,
               builder: (_) => AlertDialog(
-                title: Text('Error login'),
+                title: Text(
+                  AppLocalizations.of(context)!.error,
+                ),
                 content: Text(
-                  'Wrong password',
+                  AppLocalizations.of(context)!.wrong,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -161,12 +164,12 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/wowsoft.png',
-                width: 150,
+                'assets/images/logo.png',
+                width: 200,
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 10),
               Text(
-                'Hello Again',
+                AppLocalizations.of(context)!.helloAgain,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
               ),
 
@@ -185,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Email',
+                      hintText: AppLocalizations.of(context)!.email,
                       prefixIcon: Icon(Icons.email), // Add the icon here
                     ),
                   ),
@@ -209,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.password), // Add the icon here
                       border: InputBorder.none,
-                      hintText: 'Password',
+                      hintText: AppLocalizations.of(context)!.password,
                       suffixIcon: GestureDetector(
                         onTap: () {
                           setState(() {
@@ -240,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
                           return ForgotPasswordPage();
                         }));
                       },
-                      child: Text('Forgot Password ?',
+                      child: Text(AppLocalizations.of(context)!.forgot,
                           style: TextStyle(
                               color: Colors.blue, fontWeight: FontWeight.bold)),
                     ),
@@ -261,7 +264,7 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.deepPurple,
                     ),
                     child: Center(
-                      child: Text('Sign In',
+                      child: Text(AppLocalizations.of(context)!.signIn,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -284,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
-                      'Or continue with',
+                      AppLocalizations.of(context)!.ctn,
                       style: TextStyle(color: Colors.grey[800]),
                     ),
                   ),
@@ -312,22 +315,22 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Not a membre ?',
+                  Text(AppLocalizations.of(context)!.notMember,
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   GestureDetector(
                     onTap: widget.showRegistrePage,
-                    child: Text(' Register now',
+                    child: Text(AppLocalizations.of(context)!.registre,
                         style: TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
               // continue like a visitor
-              SizedBox(height: 25),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Login as a VISITOR ?',
+                  Text(AppLocalizations.of(context)!.visitor,
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   GestureDetector(
                     onTap: () {
@@ -339,7 +342,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       );
                     },
-                    child: Text(' Click here',
+                    child: Text(AppLocalizations.of(context)!.click,
                         style: TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.bold)),
                   ),

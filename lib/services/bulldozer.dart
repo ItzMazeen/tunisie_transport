@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/crud/edit_Page.dart';
 import 'package:flutter_application/navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class bulldozer extends StatefulWidget {
   bulldozer({Key? key}) : super(key: key);
@@ -103,7 +104,9 @@ class _bulldozerState extends State<bulldozer> {
 
     return Scaffold(
       drawer: NavBar(),
-      appBar: AppBar(centerTitle: true, title: Text('Bulldozer Page')),
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text(AppLocalizations.of(context)!.bulldozer)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +120,7 @@ class _bulldozerState extends State<bulldozer> {
                 child: TextField(
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
-                    hintText: 'Search by region',
+                    hintText: AppLocalizations.of(context)!.search,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -286,18 +289,29 @@ showDialogFunc(
                                         showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                            title: Text("Confirm Delete"),
+                                            title: Text(
+                                              AppLocalizations.of(context)!
+                                                  .confirmDelete,
+                                            ),
                                             content: Text(
-                                                'Are you sure you want to delete this document?'),
+                                              AppLocalizations.of(context)!
+                                                  .tconfirmDelete,
+                                            ),
                                             actions: <Widget>[
                                               TextButton(
-                                                child: Text('Cancel'),
+                                                child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .cancel,
+                                                ),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
                                               ),
                                               TextButton(
-                                                child: Text('Delete'),
+                                                child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .delete,
+                                                ),
                                                 onPressed: () {
                                                   // Delete the document
                                                   FirebaseFirestore.instance
@@ -313,9 +327,13 @@ showDialogFunc(
                                                       builder: (_) =>
                                                           AlertDialog(
                                                         title: Text(
-                                                            "Delete Successful"),
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .deleteSucc),
                                                         content: Text(
-                                                            'The document has been deleted.'),
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .tdeleteSucc),
                                                         actions: <Widget>[
                                                           TextButton(
                                                             child: Text('Ok'),
@@ -339,9 +357,14 @@ showDialogFunc(
                                                       context: context,
                                                       builder: (_) =>
                                                           AlertDialog(
-                                                        title: Text("Error"),
+                                                        title: Text(
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .error),
                                                         content: Text(
-                                                            'An error occurred while deleting the document.'),
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .tedelete),
                                                         actions: <Widget>[
                                                           TextButton(
                                                             child: Text('Ok'),
@@ -442,7 +465,7 @@ showDialogFunc(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Phone number : ',
+                              AppLocalizations.of(context)!.phone,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16.0,
