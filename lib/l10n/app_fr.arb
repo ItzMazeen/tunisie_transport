@@ -67,5 +67,22 @@
     "cpassword": "Confirmez le mot de passe :",
     "loginN": " Connexion ",
     "memberI": "J'ai un compte |",
-    "validP": "entrer un numéro de téléphone valide"
+    "validP": "entrer un numéro de téléphone valide",
+    "counter": "Totale {service} = {counter}",
+    "sucessSignal": "Avertissement envoyé",
+    "tsucessSignal": "Votre avertissement a été envoyé avec succès",
+    "signal": "Envoyer une avertissement",
+    "reason": "Raison de l'avertissement :",
+    "treason": "Entrez la raison ici...",
+    "submit": "Envoyer l'avertissement",
+    "warnigns": "Avertissements",
+    "confirmWarnigns": "Êtes-vous sûr de vouloir supprimer cet avertissement ?",
+    "facebook": "Visitez notre page Facebook",
+    "rate": "évaluation de l'application",
+    "notifications": "Nouvelle {selectedType} ajouté",
+    "tnotifications": "Une nouvelle {selectedType} ajouté dans {selectedRegion}"
+
+
+
+
 }

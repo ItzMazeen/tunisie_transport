@@ -25,16 +25,6 @@ class _ServiceState extends State<Service> {
   final _phoneController = TextEditingController();
   final _aboutServiceController = TextEditingController();
 
-  List<String> _typeList = [
-    'لواج',
-    'تاكسي',
-    'شاحنات النجدة',
-    'توك توك',
-    'دراجة نارية',
-    'شاحنة',
-    'جرار',
-    'جرافة',
-  ];
   List<String> _regionList = [
     'Ariana',
     'Béja',
@@ -182,15 +172,26 @@ class _ServiceState extends State<Service> {
         MaterialPageRoute(builder: (context) => HomePage()),
       );
       // Display notification
-      String notificationTitle = 'New $_selectedType Added';
-      String notificationBody =
-          'A new $_selectedType has been added in $_selectedRegion';
+      String notificationTitle =
+          AppLocalizations.of(context)!.notifications(_selectedType!);
+      String notificationBody = AppLocalizations.of(context)!
+          .tnotifications(_selectedType!, _selectedRegion!);
       await sendNotif(notificationTitle, notificationBody);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    List<String> _typeList = [
+      AppLocalizations.of(context)!.louage,
+      AppLocalizations.of(context)!.taxi,
+      AppLocalizations.of(context)!.sos,
+      AppLocalizations.of(context)!.tuktuk,
+      AppLocalizations.of(context)!.moto,
+      AppLocalizations.of(context)!.truck,
+      AppLocalizations.of(context)!.tractor,
+      AppLocalizations.of(context)!.bulldozer,
+    ];
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -442,7 +443,7 @@ class _ServiceState extends State<Service> {
     String _selectedRegion,
     String userId,
   ) async {
-    if (_selectedType == "تاكسي") {
+    if (_selectedType == AppLocalizations.of(context)!.taxi) {
       await FirebaseFirestore.instance.collection('Taxi').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -452,7 +453,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "شاحنات النجدة") {
+    } else if (_selectedType == AppLocalizations.of(context)!.sos) {
       await FirebaseFirestore.instance.collection('SOS').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -462,7 +463,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "توك توك") {
+    } else if (_selectedType == AppLocalizations.of(context)!.tuktuk) {
       await FirebaseFirestore.instance.collection('TukTuk').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -472,7 +473,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "دراجة نارية") {
+    } else if (_selectedType == AppLocalizations.of(context)!.moto) {
       await FirebaseFirestore.instance.collection('Moto').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -482,7 +483,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "شاحنة") {
+    } else if (_selectedType == AppLocalizations.of(context)!.truck) {
       await FirebaseFirestore.instance.collection('Truck').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -492,7 +493,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "جرار") {
+    } else if (_selectedType == AppLocalizations.of(context)!.tractor) {
       await FirebaseFirestore.instance.collection('Tractor').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -502,7 +503,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "جرافة") {
+    } else if (_selectedType == AppLocalizations.of(context)!.bulldozer) {
       await FirebaseFirestore.instance.collection('Bulldozer').add({
         'Service name': name,
         'Modele Vehicule': modele,
@@ -512,7 +513,7 @@ class _ServiceState extends State<Service> {
         'Region': _selectedRegion,
         'User': userId,
       });
-    } else if (_selectedType == "لواج") {
+    } else if (_selectedType == AppLocalizations.of(context)!.louage) {
       await FirebaseFirestore.instance.collection('Louage').add({
         'Service name': name,
         'Modele Vehicule': modele,

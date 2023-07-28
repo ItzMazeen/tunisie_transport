@@ -67,8 +67,19 @@
     "cpassword": "تأكيد كلمة المرور :",
     "loginN": " تسجيل الدخول ",
     "memberI": "لدي حساب |",
-    "validP": "يرجى إدخال رقم هاتف صالح"
-
-
+    "validP": "يرجى إدخال رقم هاتف صالح",
+    "counter": "مجموع {service} = {counter}",
+    "sucessSignal": "تم إرسال التحذير",
+    "tsucessSignal": "تم إرسال تحذيرك بنجاح",
+    "signal": "إرسال تحذير",
+    "reason": "سبب التحذير :",
+    "treason": "أدخل السبب هنا ...",
+    "submit": "إرسال التحذير",
+    "warnigns": "التحذيرات",
+    "confirmWarnigns": "هل أنت متأكد من حذف هذا التحذير ؟",
+    "facebook": "صفحتنا على الفيسبوك",
+    "rate": "تقييم التطبيق",
+    "notifications": "تمت إضافة {selectedType} جديد ",
+    "tnotifications": "تمت إضافة {selectedType} في {selectedRegion}"
 
 }

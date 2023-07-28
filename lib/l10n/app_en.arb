@@ -55,6 +55,18 @@
     "@taxi":{
         "description": "taxi"
     },
+    "counter": "Total {service} = {counter}",
+    "@counter":{
+        "description": "counterT",
+        "placeholders": {
+            "counter": {
+                "type": "int"
+            },
+            "service": {
+                "type": "String"
+            }
+        }
+    },
     "louage": "Louage",
     "@louage":{
         "description": "louage"
@@ -282,11 +294,70 @@
     "validP": "Please enter a valid phone number.",
     "@validP":{
         "description": "validP"
+    },
+    "sucessSignal": "Warning sent",
+    "@sucessSignal":{
+        "description": "sucessSignal"
+    },
+    "tsucessSignal": "Your warning has sent successfully",
+    "@tsucessSignal":{
+        "description": "tsucessSignal"
+    },
+    "signal": "Warning",
+    "@signal":{
+        "description": "signal"
+    },
+    "reason": "Reason for the warning :",
+    "@reason":{
+        "description": "reason"
+    },
+    "treason": "Enter the reason here ...",
+    "@treason":{
+        "description": "treason"
+    },
+    "submit": "Submit warning",
+    "@submit":{
+        "description": "submit"
+    },
+    "warnigns": "Warnings",
+    "@warnigns":{
+        "description": "warnigns"
+    },
+    "confirmWarnigns": "do you want to remove this warning ?",
+    "@warnigns":{
+        "description": "warnigns"
+    },
+    "facebook": "Visit Facebook Page",
+    "@facebook":{
+        "description": "facebook"
+    },
+    "rate": "Rate App",
+    "@rate":{
+        "description": "rate"
+    },
+    "notifications": "New {selectedType} Added",
+    "@notifications":{
+        "description": "notifications",
+        "placeholders": {
+            "selectedType": {
+                "type": "String"
+            }
+    }
+    },
+    "tnotifications": "A new {selectedType} has been added in {selectedRegion}",
+    "@tnotifications":{
+        "description": "notifications",
+        "placeholders": {
+            "selectedType": {
+                "type": "String"
+            },
+            "selectedRegion": {
+                "type": "String"
+            }
+    }
     }
 
 
 
 
-     
-    
 }

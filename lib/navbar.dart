@@ -1,16 +1,15 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_declarations
+// ignore_for_file: prefer_const_constructors, prefer_const_declarations, deprecated_member_use
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/crud/setting.dart';
-import 'package:flutter_application/services/livraison.dart';
-import 'package:flutter_application/services/sos.dart';
+
 import 'package:flutter_application/crud/main_page.dart';
-import 'package:flutter_application/services/taxi.dart';
-import 'package:flutter_application/services/trucks.dart';
+import 'package:flutter_application/crud/warnings_page.dart';
+import 'package:url_launcher/url_launcher.dart'; // Add this import for launching URLs
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'services/louage.dart';
 import 'home_page.dart';
 
 class NavBar extends StatelessWidget {
@@ -18,6 +17,8 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
     final padding = EdgeInsets.symmetric(
       horizontal: 20,
       vertical: 60,
@@ -45,37 +46,39 @@ class NavBar extends StatelessWidget {
                 text: AppLocalizations.of(context)!.home,
                 icon: Icons.dashboard_outlined,
                 onClicked: () => selectedItem(context, 0)),
-            const SizedBox(height: 10),
-            //Dashboard Menu Item
-            buildMenuItem(
-                text: AppLocalizations.of(context)!.taxi,
-                icon: Icons.local_taxi_outlined,
-                onClicked: () => selectedItem(context, 1)),
-            //Sellers Menu Item
-            const SizedBox(height: 10),
-            buildMenuItem(
-                text: AppLocalizations.of(context)!.louage,
-                icon: Icons.directions_bus_filled_outlined,
-                onClicked: () => selectedItem(context, 2)),
-            //Sales statistics Menu Item
-            const SizedBox(height: 10),
-            buildMenuItem(
-                text: AppLocalizations.of(context)!.delivery,
-                icon: Icons.fire_truck_outlined,
-                onClicked: () => selectedItem(context, 3)),
-
-            const SizedBox(height: 10),
-            buildMenuItem(
-                text: AppLocalizations.of(context)!.work,
-                icon: Icons.local_shipping_outlined,
-                onClicked: () => selectedItem(context, 4)),
-            const SizedBox(height: 10),
-            buildMenuItem(
-                text: AppLocalizations.of(context)!.sos,
-                icon: Icons.car_repair_outlined,
-                onClicked: () => selectedItem(context, 5)),
+            if (currentUser?.email == "admin@gmail.com")
+              buildMenuItem(
+                  text: AppLocalizations.of(context)!.warnigns,
+                  icon: Icons.report_gmailerrorred,
+                  onClicked: () => selectedItem(context, 1)),
             //Divider
+// Rate App Menu Item
             const SizedBox(height: 10),
+            buildMenuItem(
+              text: AppLocalizations.of(context)!
+                  .rate, // Replace with your desired text
+              icon: Icons.star, // Replace with your desired icon
+              onClicked: () {
+                // Replace 'your_package_name' with your actual package name on the Play Store
+                final playStoreUrl =
+                    'https://play.google.com/store/apps/details?id=com.alidev.taxirogba';
+                _launchURL(playStoreUrl);
+              },
+            ),
+            // Visit Facebook Page Menu Item
+            const SizedBox(height: 10),
+            buildMenuItem(
+              text: AppLocalizations.of(context)!
+                  .facebook, // Replace with your desired text
+              icon: Icons
+                  .facebook, // Replace with your desired icon (if available)
+              onClicked: () {
+                final facebookPageUrl =
+                    'https://www.facebook.com/allotransport.tunisie'; // Replace with your Facebook page URL
+                _launchURL(facebookPageUrl);
+              },
+            ),
+
             Divider(
               color: Colors.white70,
             ),
@@ -87,7 +90,7 @@ class NavBar extends StatelessWidget {
               buildMenuItem(
                 text: AppLocalizations.of(context)!.settings,
                 icon: Icons.settings_outlined,
-                onClicked: () => selectedItem(context, 6),
+                onClicked: () => selectedItem(context, 2),
               ),
             const SizedBox(height: 10),
             buildMenuItem(
@@ -138,34 +141,22 @@ void selectedItem(BuildContext context, int index) {
       break;
     case 1:
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Taxi(),
+        builder: (context) => WarningsPage(),
       ));
       break;
     case 2:
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Louage(),
-      ));
-      break;
-    case 3:
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => livraison(),
-      ));
-      break;
-
-    case 4:
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => trucks(),
-      ));
-      break;
-    case 5:
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => sos(),
-      ));
-      break;
-    case 6:
-      Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => Setting(),
       ));
       break;
+  }
+}
+
+// Function to launch URLs
+void _launchURL(String url) async {
+  if (await launch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

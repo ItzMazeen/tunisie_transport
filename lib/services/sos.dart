@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/crud/edit_Page.dart';
+import 'package:flutter_application/crud/signal_page.dart';
 import 'package:flutter_application/navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -84,15 +85,21 @@ class _sosState extends State<sos> {
     _incrementCounter();
   }
 
+  int counter = 0;
+
   _incrementCounter() async {
     List<Map<String, dynamic>> tempList = [];
     var data = await collection.get();
+    var length = data.size;
+
     data.docs.forEach((element) {
       var itemData = element.data();
       itemData["id"] = element.id; // Include the document ID in the data map
       tempList.add(itemData);
     });
     setState(() {
+      counter = length; // Assign the collection size to the 'counter' variable
+
       items = tempList;
       isLoaded = true;
     });
@@ -104,113 +111,111 @@ class _sosState extends State<sos> {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-          centerTitle: true, title: Text(AppLocalizations.of(context)!.sos)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: AppLocalizations.of(context)!.search,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    filled:
-                        true, // Fill the TextField with the background color
-                    // Set the background color for the filled area
+        centerTitle: true,
+        title: Text(AppLocalizations.of(context)!.sos),
+      ),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.search),
+                  hintText: AppLocalizations.of(context)!.search,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  onChanged: (val) {
-                    setState(() {
-                      name = val;
-                    });
-                  },
+                  filled: true,
                 ),
+                onChanged: (val) {
+                  setState(() {
+                    name = val;
+                  });
+                },
               ),
             ),
-            Expanded(
-              child: isLoaded
-                  ? ListView.builder(
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        final currentItem = items[index];
-                        final serviceName =
-                            currentItem["Service name"] ?? "Not given";
-                        final modeleVehicule =
-                            currentItem["Modele Vehicule"] ?? "Not given";
-                        final region = currentItem["Region"] ?? "Not given";
-
-                        if (name.isEmpty ||
-                            region.toLowerCase().contains(name.toLowerCase())) {
-                          return InkWell(
-                            onTap: () {
-                              showDialogFunc(
-                                context,
-                                currentItem["id"] ?? "Not given",
-                                currentItem["User"] ?? "Not given",
-                                serviceName,
-                                region,
-                                modeleVehicule,
-                                currentItem["serie"] ?? "Not given",
-                                currentItem["Phone"].toString(),
-                                currentItem["about"] ?? "Not given",
-                                service,
-                              );
-                              String userId =
-                                  currentItem["User"] ?? "Not given";
-                              searchDocumentByUserId(userId);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(width: 2),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                leading: CircleAvatar(
-                                  backgroundColor: const Color(0xff6ae792),
-                                  child: Icon(Icons.person),
-                                ),
-                                title: Row(
-                                  children: [
-                                    Text(serviceName),
-                                    Text(" | "),
-                                    Text(modeleVehicule),
-                                  ],
-                                ),
-                                subtitle: Text(region),
-                                trailing: GestureDetector(
-                                  onTap: () {
-                                    String phoneNumber =
-                                        currentItem["Phone"].toString();
-                                    _makePhoneCall(phoneNumber);
-                                  },
-                                  child: Icon(Icons.phone),
-                                ),
-                              ),
-                            ),
-                          );
-                        } else {
-                          return SizedBox.shrink();
-                        }
-                      },
-                    )
-                  : Center(
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
+          ),
+          if (name.isEmpty)
+            Align(
+              alignment: Alignment.center,
+              child: Text(AppLocalizations.of(context)!
+                  .counter(counter, AppLocalizations.of(context)!.sos)),
             ),
-          ],
-        ),
+          isLoaded
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    final currentItem = items[index];
+                    final serviceName =
+                        currentItem["Service name"] ?? "Not given";
+                    final modeleVehicule =
+                        currentItem["Modele Vehicule"] ?? "Not given";
+                    final region = currentItem["Region"] ?? "Not given";
+
+                    if (name.isEmpty ||
+                        region.toLowerCase().contains(name.toLowerCase())) {
+                      return InkWell(
+                        onTap: () {
+                          showDialogFunc(
+                            context,
+                            currentItem["id"] ?? "Not given",
+                            currentItem["User"] ?? "Not given",
+                            serviceName,
+                            region,
+                            modeleVehicule,
+                            currentItem["serie"] ?? "Not given",
+                            currentItem["Phone"].toString(),
+                            currentItem["about"] ?? "Not given",
+                            service,
+                          );
+                          String userId = currentItem["User"] ?? "Not given";
+                          searchDocumentByUserId(userId);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(width: 2),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            leading: CircleAvatar(
+                              backgroundColor: const Color(0xff6ae792),
+                              child: Icon(Icons.person),
+                            ),
+                            title: Row(
+                              children: [
+                                Text(serviceName),
+                                Text(" | "),
+                                Text(modeleVehicule),
+                              ],
+                            ),
+                            subtitle: Text(region),
+                            trailing: GestureDetector(
+                              onTap: () {
+                                String phoneNumber =
+                                    currentItem["Phone"].toString();
+                                _makePhoneCall(phoneNumber);
+                              },
+                              child: Icon(Icons.phone),
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
+        ],
       ),
     );
   }
@@ -249,9 +254,9 @@ showDialogFunc(
                             ),
                             child: Stack(
                               children: [
-                                if (user ==
-                                    currentUser
-                                        ?.uid) // Conditionally show the button if user is logged in
+                                if (user == currentUser?.uid ||
+                                    currentUser?.email ==
+                                        "admin@gmail.com") // Conditionally show the button if user is logged in
                                   Positioned(
                                     top: 0,
                                     right: 0,
@@ -276,9 +281,9 @@ showDialogFunc(
                                       },
                                     ),
                                   ),
-                                if (user ==
-                                    currentUser
-                                        ?.uid) // Conditionally show the button if user is logged in
+                                if (user == currentUser?.uid ||
+                                    currentUser?.email ==
+                                        "admin@gmail.com") // Conditionally show the button if user is logged in
                                   Positioned(
                                     top: 0,
                                     left: 0,
@@ -383,6 +388,32 @@ showDialogFunc(
                                         );
                                       },
                                       icon: Icon(Icons.delete),
+                                    ),
+                                  ),
+                                if (user != currentUser?.uid &&
+                                    currentUser?.email != "admin@gmail.com")
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => SingalPage(
+                                              docId: docId,
+                                              name: name,
+                                              region: region,
+                                              modele: modele,
+                                              serie: serie,
+                                              phone: phone,
+                                              about: about,
+                                              service: service,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      icon: Icon(Icons.report_gmailerrorred),
                                     ),
                                   ),
                               ],
