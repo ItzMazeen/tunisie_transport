@@ -80,7 +80,17 @@ class _EditPageState extends State<EditPage> {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-          centerTitle: true, title: Text(AppLocalizations.of(context)!.edit)),
+          iconTheme: IconThemeData(
+            color: Colors
+                .black, // Change this color to the desired color for the back button
+          ),
+          centerTitle: true,
+          title: Text(
+            AppLocalizations.of(context)!.edit,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          )),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -318,7 +328,10 @@ class _EditPageState extends State<EditPage> {
                     });
                   }
                 },
-                child: Text(AppLocalizations.of(context)!.update),
+                child: Text(
+                  AppLocalizations.of(context)!.update,
+                  style: TextStyle(color: Colors.black),
+                ),
               )
             ],
           ),

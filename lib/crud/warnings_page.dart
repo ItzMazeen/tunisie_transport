@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_function_literals_in_foreach_calls, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, avoid_function_literals_in_foreach_calls, non_constant_identifier_names, prefer_const_constructors_in_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +44,13 @@ class _WarningsPageState extends State<WarningsPage> {
       drawer: NavBar(),
       appBar: AppBar(
           centerTitle: true,
-          title: Text(
-            AppLocalizations.of(context)!.warnigns,
+          title: Text(AppLocalizations.of(context)!.warnigns,
+              style: TextStyle(
+                color: Colors.black,
+              )),
+          iconTheme: IconThemeData(
+            color: Colors
+                .black, // Change this color to the desired color for the back button
           )),
       body: ListView(
         children: [

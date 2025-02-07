@@ -74,7 +74,7 @@ class _ServiceState extends State<Service> {
 
   FirebaseMessaging token = FirebaseMessaging.instance;
   var serverToken =
-      "AAAAkRiCMP8:APA91bEwHyocXl9CeeOrjx6XVj13OG2gT8sKn6Y7ZFKK0hBvsWJCpq1wpR1kpwPs0vVoyI4-fHHJLrGSCCXcHeBXlatT9a3J4X1pwPHXPJAMvP4--7C6PO02qzuQmw5nmoINQ1sIDBOX";
+      "AAAAFuEv0EI:APA91bEP41GWoIWir4LJFMsjhcX9vKP19GNMVqsuFsXovItyklQYEwNj7y4r8T7AWCrPNYdFZjLxKzndDXyCQJeGZw6_uuWYIb4-WlNZE5-3J3x050whpRdlCZu6Fkb1wKpkr7t75FCS";
 
   sendNotif(String t, String b) async {
     await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -98,6 +98,8 @@ class _ServiceState extends State<Service> {
           },
         ));
   }
+
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> addService() async {
     String serie = _serieVehiculeController.text.trim();
@@ -177,6 +179,7 @@ class _ServiceState extends State<Service> {
       String notificationBody = AppLocalizations.of(context)!
           .tnotifications(_selectedType!, _selectedRegion!);
       await sendNotif(notificationTitle, notificationBody);
+      _firebaseMessaging.subscribeToTopic('service');
     }
   }
 
@@ -381,15 +384,16 @@ class _ServiceState extends State<Service> {
                 child: GestureDetector(
                   onTap: addService,
                   child: Container(
-                    padding: EdgeInsets.all(20),
+                    height: 55,
+                    padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.deepPurple,
+                      borderRadius: BorderRadius.circular(40),
+                      color: Color.fromRGBO(255, 168, 39, 1),
                     ),
                     child: Center(
                       child: Text(AppLocalizations.of(context)!.ajouter,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           )),
@@ -399,9 +403,10 @@ class _ServiceState extends State<Service> {
               ),
               SizedBox(height: 10),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.only(
+                    left: 25.0, right: 25.0, bottom: 10.0),
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -411,15 +416,16 @@ class _ServiceState extends State<Service> {
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.all(20),
+                    height: 55,
+                    padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.deepPurple,
+                      borderRadius: BorderRadius.circular(40),
+                      color: Color.fromRGBO(255, 168, 39, 1),
                     ),
                     child: Center(
                       child: Text(AppLocalizations.of(context)!.cancel,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           )),

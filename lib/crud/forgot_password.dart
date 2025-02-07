@@ -127,7 +127,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple[200],
+        centerTitle: true,
+        backgroundColor: Color.fromRGBO(255, 168, 39, 1),
+        title: Text(AppLocalizations.of(context)!.reset,
+            style: TextStyle(
+              color: Colors.black,
+            )),
+        iconTheme: IconThemeData(
+          color: Colors
+              .black, // Change this color to the desired color for the back button
+        ),
         elevation: 0,
       ),
       body: Column(
@@ -163,7 +172,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           MaterialButton(
             onPressed: passwordReset,
             child: Text(AppLocalizations.of(context)!.reset),
-            color: Colors.deepPurple[200],
+            color: Color.fromRGBO(255, 168, 39, 1),
           )
         ],
       ),

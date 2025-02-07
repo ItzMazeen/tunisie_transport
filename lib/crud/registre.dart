@@ -364,13 +364,13 @@ class _RegistrePageState extends State<RegistrePage> {
                   child: Container(
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.deepPurple,
+                      borderRadius: BorderRadius.circular(40),
+                      color: Color.fromRGBO(255, 168, 39, 1),
                     ),
                     child: Center(
                       child: Text(AppLocalizations.of(context)!.registre,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           )),

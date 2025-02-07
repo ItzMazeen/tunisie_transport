@@ -4,6 +4,10 @@
         android:label="AlloTransport"
         android:name="${applicationName}"
         android:icon="@drawable/app_icon">
+
+        <meta-data
+          android:name="com.google.firebase.messaging.default_notification_icon"
+          android:resource="@drawable/test" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -20,6 +24,7 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -30,6 +35,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+              android:name="com.google.android.gms.ads.APPLICATION_ID"
+              android:value="ca-app-pub-4924741622232822~5516689288"/>
+        
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

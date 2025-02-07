@@ -10,12 +10,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'l10n/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  MobileAds.instance.initialize();
   await Firebase.initializeApp();
 
   // Retrieve the saved locale from shared preferences
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     // Initialize the local notification plugin
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('test');
     final InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
       title: 'AlloTransport',
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: Color(0xff52B788), // Change the primary color
+          primary: Color.fromRGBO(255, 168, 39, 1),
         ),
       ),
       locale: localeProvider.locale,

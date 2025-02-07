@@ -1,10 +1,10 @@
-// ignore_for_file: prefer_const_constructors, camel_case_types, prefer_const_constructors_in_immutables, avoid_function_literals_in_foreach_calls, deprecated_member_use, avoid_print
+// ignore_for_file: prefer_const_constructors, camel_case_types, prefer_const_constructors_in_immutables, avoid_function_literals_in_foreach_calls, deprecated_member_use, avoid_print, prefer_final_fields
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_application/crud/edit_Page.dart';
-import 'package:flutter_application/crud/signal_page.dart';
+import 'package:flutter_application/ItemDetailsPage.dart';
+
 import 'package:flutter_application/navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,6 +17,37 @@ class bulldozer extends StatefulWidget {
 }
 
 class _bulldozerState extends State<bulldozer> {
+  String selectedRegion =
+      'Toute les regions'; // Step 1: Create a variable to hold the selected value.
+
+  List<String> _regionList = [
+    'Ariana',
+    'Béja',
+    'Ben Arous',
+    'Bizerte',
+    'Gabès',
+    'Gafsa',
+    'Jendouba',
+    'Kairouan',
+    'Kébili',
+    'Kasserine',
+    'Kef',
+    'Mahdia',
+    'Manouba',
+    'Médenine',
+    'Monastir',
+    'Nabeul',
+    'Sfax',
+    'Sidi Bouzid',
+    'Siliana',
+    'Sousse',
+    'Tataouine',
+    'Tozeur',
+    'Tunis',
+    'Zaghouan',
+    'Toute la tunisie',
+    'Toute les regions',
+  ];
   final CollectionReference statistiqueCollection =
       FirebaseFirestore.instance.collection('statistique');
 
@@ -110,414 +141,165 @@ class _bulldozerState extends State<bulldozer> {
     String service = "Bulldozer";
 
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: NavBar(),
       appBar: AppBar(
           centerTitle: true,
-          title: Text(AppLocalizations.of(context)!.bulldozer)),
-      body: ListView(
-        children: [
+          title: Text(AppLocalizations.of(context)!.bulldozer,
+              style: TextStyle(
+                color: Colors.black,
+              )),
+          iconTheme: IconThemeData(
+            color: Colors
+                .black, // Change this color to the desired color for the back button
+          )),
+      body: SingleChildScrollView(
+        child: Column(children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: AppLocalizations.of(context)!.search,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  filled: true,
+            child: DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                prefixIcon: Icon(Icons.search),
+                hintText: AppLocalizations.of(context)!.search,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                onChanged: (val) {
-                  setState(() {
-                    name = val;
-                  });
-                },
+                filled: true,
               ),
+              value: selectedRegion, // Step 2: Set the value of the dropdown.
+              items: _regionList.map((String region) {
+                return DropdownMenuItem<String>(
+                  value: region,
+                  child: Text(region),
+                );
+              }).toList(),
+              onChanged: (val) {
+                setState(() {
+                  name = val!;
+                  selectedRegion = val; // Remove 'val!' and use 'val'
+                });
+              },
             ),
           ),
-          if (name.isEmpty)
+          if (name.isEmpty || name == "Toute les regions")
             Align(
               alignment: Alignment.center,
               child: Text(AppLocalizations.of(context)!
                   .counter(counter, AppLocalizations.of(context)!.bulldozer)),
             ),
-          isLoaded
-              ? ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final currentItem = items[index];
-                    final serviceName =
-                        currentItem["Service name"] ?? "Not given";
-                    final modeleVehicule =
-                        currentItem["Modele Vehicule"] ?? "Not given";
-                    final region = currentItem["Region"] ?? "Not given";
+          Column(
+            children: [
+              isLoaded
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: isLoaded ? items.length : 0,
+                      itemBuilder: (context, index) {
+                        final currentItem = items[index];
+                        final serviceName =
+                            currentItem["Service name"] ?? "Not given";
+                        final modeleVehicule =
+                            currentItem["Modele Vehicule"] ?? "Not given";
+                        final region = currentItem["Region"] ?? "Not given";
 
-                    if (name.isEmpty ||
-                        region.toLowerCase().contains(name.toLowerCase())) {
-                      return InkWell(
-                        onTap: () {
-                          showDialogFunc(
-                            context,
-                            currentItem["id"] ?? "Not given",
-                            currentItem["User"] ?? "Not given",
-                            serviceName,
-                            region,
-                            modeleVehicule,
-                            currentItem["serie"] ?? "Not given",
-                            currentItem["Phone"].toString(),
-                            currentItem["about"] ?? "Not given",
-                            service,
+                        if (name.isEmpty ||
+                            region.toLowerCase().contains(name.toLowerCase()) ||
+                            name == "Toute les regions") {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemDetailsPage(
+                                    docId: currentItem["id"] ?? "Not given",
+                                    user: currentItem["User"] ?? "Not given",
+                                    name: serviceName,
+                                    region: region,
+                                    modele: modeleVehicule,
+                                    serie: currentItem["serie"] ?? "Not given",
+                                    phone: currentItem["Phone"].toString(),
+                                    about: currentItem["about"] ?? "Not given",
+                                    service: service,
+                                  ),
+                                ),
+                              );
+                              String userId =
+                                  currentItem["User"] ?? "Not given";
+                              searchDocumentByUserId(userId);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Material(
+                                elevation:
+                                    5, // Adjust the value to control the shadow intensity
+                                shape: RoundedRectangleBorder(
+                                  side:
+                                      BorderSide(width: 2, color: Colors.white),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ListTile(
+                                  tileColor: Colors
+                                      .white, // Replace 'Colors.blue' with the color you want for the ListTile
+
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                        width: 2, color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  leading: CircleAvatar(
+                                    backgroundColor:
+                                        Color.fromRGBO(255, 168, 39, 1),
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  title: Row(
+                                    children: [
+                                      Text(
+                                        serviceName,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(" | "),
+                                      Text(
+                                        modeleVehicule,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Text(region),
+                                  trailing: GestureDetector(
+                                    onTap: () {
+                                      String phoneNumber =
+                                          currentItem["Phone"].toString();
+                                      _makePhoneCall(phoneNumber);
+                                    },
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           );
-                          String userId = currentItem["User"] ?? "Not given";
-                          searchDocumentByUserId(userId);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(width: 2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            leading: CircleAvatar(
-                              backgroundColor: const Color(0xff6ae792),
-                              child: Icon(Icons.person),
-                            ),
-                            title: Row(
-                              children: [
-                                Text(serviceName),
-                                Text(" | "),
-                                Text(modeleVehicule),
-                              ],
-                            ),
-                            subtitle: Text(region),
-                            trailing: GestureDetector(
-                              onTap: () {
-                                String phoneNumber =
-                                    currentItem["Phone"].toString();
-                                _makePhoneCall(phoneNumber);
-                              },
-                              child: Icon(Icons.phone),
-                            ),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  },
-                )
-              : Center(
-                  child: CircularProgressIndicator(),
-                ),
-        ],
+                        } else {
+                          return SizedBox
+                              .shrink(); // Return an empty SizedBox to display nothing for this item.
+                        }
+                      },
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    ),
+            ],
+          ),
+        ]),
       ),
     );
   }
-}
-
-showDialogFunc(
-    context, docId, user, name, region, modele, serie, phone, about, service) {
-  User? currentUser = FirebaseAuth.instance.currentUser;
-
-  return showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Container(
-                height: 350.0,
-                width: 200.0,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Stack(
-                        children: <Widget>[
-                          Container(height: 150.0),
-                          Container(
-                            height: 100.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                topRight: Radius.circular(10.0),
-                              ),
-                              color: Colors.teal,
-                            ),
-                            child: Stack(
-                              children: [
-                                if (user == currentUser?.uid ||
-                                    currentUser?.email ==
-                                        "admin@gmail.com") // Conditionally show the button if user is logged in
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: IconButton(
-                                      icon: Icon(Icons.edit),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => EditPage(
-                                              docId: docId,
-                                              name: name,
-                                              region: region,
-                                              modele: modele,
-                                              serie: serie,
-                                              phone: phone,
-                                              about: about,
-                                              service: service,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                if (user == currentUser?.uid ||
-                                    currentUser?.email ==
-                                        "admin@gmail.com") // Conditionally show the button if user is logged in
-                                  Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (_) => AlertDialog(
-                                            title: Text(
-                                              AppLocalizations.of(context)!
-                                                  .confirmDelete,
-                                            ),
-                                            content: Text(
-                                              AppLocalizations.of(context)!
-                                                  .tconfirmDelete,
-                                            ),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: Text(
-                                                  AppLocalizations.of(context)!
-                                                      .cancel,
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                              TextButton(
-                                                child: Text(
-                                                  AppLocalizations.of(context)!
-                                                      .delete,
-                                                ),
-                                                onPressed: () {
-                                                  // Delete the document
-                                                  FirebaseFirestore.instance
-                                                      .collection("Bulldozer")
-                                                      .doc(docId)
-                                                      .delete()
-                                                      .then((_) {
-                                                    Navigator.of(context)
-                                                        .pop(); // Close the dialog
-                                                    // Show a success dialog or navigate to a different page
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          AlertDialog(
-                                                        title: Text(
-                                                            AppLocalizations.of(
-                                                                    context)!
-                                                                .deleteSucc),
-                                                        content: Text(
-                                                            AppLocalizations.of(
-                                                                    context)!
-                                                                .tdeleteSucc),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            child: Text('Ok'),
-                                                            onPressed: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          bulldozer(), // Replace NextPage with your desired page/widget
-                                                                ),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }).catchError((error) {
-                                                    // Show an error dialog if deletion fails
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          AlertDialog(
-                                                        title: Text(
-                                                            AppLocalizations.of(
-                                                                    context)!
-                                                                .error),
-                                                        content: Text(
-                                                            AppLocalizations.of(
-                                                                    context)!
-                                                                .tedelete),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            child: Text('Ok'),
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                      icon: Icon(Icons.delete),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                          if (user != currentUser?.uid &&
-                              currentUser?.email != "admin@gmail.com")
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SingalPage(
-                                        docId: docId,
-                                        name: name,
-                                        region: region,
-                                        modele: modele,
-                                        serie: serie,
-                                        phone: phone,
-                                        about: about,
-                                        service: service,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                icon: Icon(Icons.report_gmailerrorred),
-                              ),
-                            ),
-                          Positioned(
-                              top: 50.0,
-                              left: 94.0,
-                              child: Container(
-                                height: 90.0,
-                                width: 90.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(45.0),
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    style: BorderStyle.solid,
-                                    width: 2.0,
-                                  ),
-                                  color: const Color(
-                                      0xff6ae792), // Set the background color directly
-                                ),
-                                child: CircleAvatar(
-                                  child: Icon(Icons.person),
-                                ),
-                              ))
-                        ],
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(3.0),
-                              child: Text(
-                                name,
-                              ),
-                            ),
-                            Text(
-                              ' | ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(3.0),
-                              child: Text(
-                                region,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(3.0),
-                              child: Text(
-                                modele,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(3.0),
-                              child: Text(
-                                serie,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.phone,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(3.0),
-                              child: Text(
-                                phone,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.all(6.0),
-                          child: Center(
-                            child: Text(
-                              about,
-                            ),
-                          )),
-                    ],
-                  ),
-                )));
-      });
 }

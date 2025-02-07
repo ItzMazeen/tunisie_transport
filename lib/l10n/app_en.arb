@@ -1,5 +1,5 @@
 {
-    "language": "select app language : ",
+    "language": "select language : ",
     "@language":{
         "description": "The current Language"
     },
@@ -11,7 +11,7 @@
     "@allowNotifications":{
         "description": "AllowNotifications message"
     },
-    "nbrVue": "Number of views of your service {currentValue} : {selectedType} ",
+    "nbrVue": "Number of views of your service {selectedType} : {currentValue}",
     "@nbrVue":{
         "description": "nbrVue",
         "placeholders": {
@@ -23,19 +23,19 @@
             }
         }
     },
-    "firstName": "First Name :",
+    "firstName": "First Name ",
     "@firstName":{
         "description": "firstName"
     },
-    "lastName": "Last Name :",
+    "lastName": "Last Name ",
     "@lastName":{
         "description": "lastName"
     },
-    "email": "Email :",
+    "email": "Email ",
     "@email":{
         "description": "email"
     },
-    "password": "Password :",
+    "password": "Password ",
     "@password":{
         "description": "password"
     },
@@ -55,7 +55,7 @@
     "@taxi":{
         "description": "taxi"
     },
-    "counter": "Total {service} = {counter}",
+    "counter": "{counter} {service}",
     "@counter":{
         "description": "counterT",
         "placeholders": {
@@ -111,7 +111,7 @@
     "@search":{
         "description": "search"
     },
-    "phone": "Phone number : ",
+    "phone": "Phone number ",
     "@phone":{
         "description": "phone"
     },
@@ -151,23 +151,23 @@
     "@edit":{
         "description": "edit"
     },
-    "serviceName": "Service name : ",
+    "serviceName": "Service name ",
     "@serviceName":{
         "description": "serviceName"
     },
-    "region": "Region :",
+    "region": "Region ",
     "@region":{
         "description": "region"
     },
-    "modele": "Modele vehicule :",
+    "modele": "Vehicle model ",
     "@modele":{
         "description": "modele"
     },
-    "serie": "Serie vehicule :",
+    "serie": "Vehicle number ",
     "@serie":{
         "description": "serie"
     },
-    "aboutService": "About service :",
+    "aboutService": "About service ",
     "@aboutService":{
         "description": "aboutService"
     },
@@ -219,7 +219,7 @@
     "@notMember":{
         "description": "notMember"
     },
-    "visitor": "Login as a VISITOR ?",
+    "visitor": "Login as a VISITOR",
     "@visitor":{
         "description": "visitor"
     },
@@ -355,6 +355,30 @@
                 "type": "String"
             }
     }
+    },
+    "show": "Show list ",
+    "@show":{
+        "description": "show"
+    },
+    "navigate": "Lets Navigate !",
+    "@navigate":{
+        "description": "navigate"
+    },
+    "connect": "Access not authorized",
+    "@connect":{
+        "description": "connect"
+    },
+    "tconnect": "You need to connect to your account first !",
+    "@tconnect":{
+        "description": "tconnect"
+    },
+    "buy": "You reached your maximum",
+    "@buy":{
+        "description": "buy"
+    },
+    "tbuy": "to add more than one service you need to buy a VIP account, connect our Facebook page",
+    "@tbuy":{
+        "description": "tbuy"
     }
 
 

@@ -6,11 +6,10 @@ import 'package:flutter_application/crud/setting.dart';
 
 import 'package:flutter_application/crud/main_page.dart';
 import 'package:flutter_application/crud/warnings_page.dart';
+import 'package:flutter_application/home_page.dart';
 import 'package:url_launcher/url_launcher.dart'; // Add this import for launching URLs
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'home_page.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -23,9 +22,10 @@ class NavBar extends StatelessWidget {
       horizontal: 20,
       vertical: 60,
     );
+
     return Drawer(
       child: Material(
-        color: Color.fromARGB(255, 64, 145, 108),
+        color: Colors.black,
         child: ListView(
           padding: padding,
           children: <Widget>[
@@ -35,7 +35,7 @@ class NavBar extends StatelessWidget {
                 horizontal: 40,
               ),
               child: Image.asset(
-                'assets/images/logo.png',
+                'assets/images/logoW.png',
                 alignment: Alignment.center,
                 width: 200,
               ),
@@ -52,7 +52,7 @@ class NavBar extends StatelessWidget {
                   icon: Icons.report_gmailerrorred,
                   onClicked: () => selectedItem(context, 1)),
             //Divider
-// Rate App Menu Item
+            // Rate App Menu Item
             const SizedBox(height: 10),
             buildMenuItem(
               text: AppLocalizations.of(context)!
